@@ -19,6 +19,7 @@ public class Detector {
     private BufferedImage original;
     private int brightPixCount = 0;
     private int darkPixCount = 0;
+    protected static float LUMINANCETHRESHOLD = 0.7f;
     
     private long zeitVorher;
     private long zeitNachher;
@@ -53,7 +54,7 @@ public class Detector {
                 float luminance = (red * 0.2126f + green * 0.7152f + blue * 0.0722f) / 255;
 
                 //choose brightness threshold as appropriate:
-                if (luminance >= 0.7f) {
+                if (luminance >= LUMINANCETHRESHOLD) {
                     original.setRGB(x, y, Color.WHITE.getIntArgbPre());
                     brightPixCount++;
                 } else {
