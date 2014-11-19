@@ -6,6 +6,7 @@
 package korberkennung.main;
 
 import korberkennung.detektor.Detector;
+import korberkennung.viewer.Viewer;
 
 /**
  *
@@ -17,10 +18,13 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         // TODO code application logic here
         Detector detektor = new Detector(FILEPATH);
+        Viewer viewer = new Viewer(detektor);
+        Thread.sleep(1000);
         detektor.start();
+        Viewer viewer2 = new Viewer(detektor);
     }
     
 }
