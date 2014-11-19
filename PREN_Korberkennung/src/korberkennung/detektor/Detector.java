@@ -14,14 +14,14 @@ import javax.imageio.ImageIO;
  *
  * @author Nikk
  */
-public class KorbDetektor {
+public class Detector {
     private BufferedImage original;
     
     private long zeitVorher;
     private long zeitNachher;
     
     
-    public KorbDetektor(String imageName) {
+    public Detector(String imageName) {
         File file = new File(imageName);
         try {
             original = ImageIO.read(file);

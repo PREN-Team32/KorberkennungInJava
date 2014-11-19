@@ -5,7 +5,7 @@
  */
 package korberkennung.main;
 
-import korberkennung.detektor.KorbDetektor;
+import korberkennung.detektor.Detector;
 
 /**
  *
@@ -19,7 +19,7 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        KorbDetektor detektor = new KorbDetektor(FILEPATH);
+        Detector detektor = new Detector(FILEPATH);
         detektor.start();
     }
     
