@@ -13,7 +13,7 @@ import korberkennung.viewer.Viewer;
  * @author Nikk
  */
 public class Main {
-    private static final String FILEPATH = "test.jpg";
+    private static final String FILEPATH = "Korb1.jpg";
 
     /**
      * @param args the command line arguments
@@ -24,6 +24,7 @@ public class Main {
         Viewer viewer = new Viewer(detektor);
         Thread.sleep(1000);
         detektor.start();
+        System.out.println("Black Pixel Main Area: " + detektor.calculateMainArea() + " (X-Coordinate)");
         Viewer viewer2 = new Viewer(detektor);
     }
     
