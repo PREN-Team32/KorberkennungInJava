@@ -5,12 +5,11 @@
  */
 package korberkennung.viewer;
 
-import java.awt.Graphics;
 import java.awt.Panel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import korberkennung.detektor.Detector;
 
 /**
@@ -29,6 +28,8 @@ public class Viewer extends Panel {
         image = new ImageIcon(detector.getOriginal());
         label = new JLabel("", image, JLabel.CENTER);
         frame.add(label);
+        frame.setTitle("Korberkennung in Java");
+        frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         frame.setVisible(true);
     }
 }
