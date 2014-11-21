@@ -82,6 +82,7 @@ public class Detector {
                 //System.out.println("Blue Color value = " + blue);
             }
         }
+        System.out.println("Found first occurence of shape at: X = " + findShape(calculateMainArea()));
         zeitNachher = System.currentTimeMillis();
         long gebrauchteZeit = zeitNachher - zeitVorher;
         System.out.println("Bright | Dark Pixels: " + brightPixCount + " | " + darkPixCount);
@@ -103,10 +104,21 @@ public class Detector {
         return totalX/blackPixCount;
     }
     
-    public int findShape(int mainArea) {            
+    public int findShape(int mainArea) {
+        int rgbCurrentPixel;
         //Seek shape of the basket, starting from the right side.
-        if(mainArea < FINAL_IMAGE_WIDTH/2) {
-            //TODO
+        if(mainArea < IMAGE_WIDTH/2) {
+            for (int y = original.getHeight()-1; y > 0; y--) {
+                //Care for visitedFields variable (x must be larger!!)
+                for (int x = original.getWidth()-5; x > 5; x--) {
+                    rgbCurrentPixel = original.getRGB(x, y);
+                    if(rgbCurrentPixel == Color.BLACK.getIntArgbPre()) {
+                        if(isBucketShape(x, y, true)) {
+                            return x;
+                        }
+                    }
+                }
+            }
         }
         //Seek shape of the basket, starting from the left side.
         else if(mainArea > FINAL_IMAGE_WIDTH/2) {
@@ -129,25 +141,24 @@ public class Detector {
     
     private boolean isBucketShape(int x, int y, boolean fromLeft) {
         boolean isBucketShape = true;
-        int visitedFields = 4;
+        int visitedFields = 2;
         int[] rgbToLeft = new int[visitedFields];
         int[] rgbToRight = new int[visitedFields];
         
-        for(int i = 0; i <= 4; i++) {
-            rgbToLeft[i] = original.getRGB((x-1) - i, i);
-            rgbToRight[i] = original.getRGB(x + i, i);
+        for(int i = 0; i < visitedFields; i++) {
+            rgbToLeft[i] = original.getRGB(x - (i+1), y);
+            rgbToRight[i] = original.getRGB(x + (i+1), y);
         }
-        int rgbCurrentPixel = original.getRGB(x, y);
         
         if(fromLeft) {
-            for(int i = 0; i <= 4; i++) {
+            for(int i = 0; i < visitedFields; i++) {
                 if(rgbToLeft[i] != Color.WHITE.getIntArgbPre() || rgbToRight[i] != Color.BLACK.getIntArgbPre()) {
                     isBucketShape = false;
                 }
             }
         }
         else {
-            for(int i = 0; i <= 4; i++) {
+            for(int i = 0; i < visitedFields; i++) {
                 if(rgbToLeft[i] != Color.BLACK.getIntArgbPre() || rgbToRight[i] != Color.WHITE.getIntArgbPre()) {
                     isBucketShape = false;
                 }

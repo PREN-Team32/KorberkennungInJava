@@ -27,7 +27,6 @@ public class Viewer extends Panel {
         frame.setSize(700, 700);
         image = new ImageIcon(detector.getOriginal());
         label = new JLabel("", image, JLabel.CENTER);
-        label.setBounds(0, 0, 1366, 768);
         frame.add(label);
         frame.setTitle("Korberkennung in Java");
         frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
