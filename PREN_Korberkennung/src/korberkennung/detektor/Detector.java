@@ -82,7 +82,6 @@ public class Detector {
                 //System.out.println("Blue Color value = " + blue);
             }
         }
-        System.out.println("Found first occurence of shape at: X = " + findShape(calculateMainArea()));
         zeitNachher = System.currentTimeMillis();
         long gebrauchteZeit = zeitNachher - zeitVorher;
         System.out.println("Bright | Dark Pixels: " + brightPixCount + " | " + darkPixCount);
@@ -107,7 +106,7 @@ public class Detector {
     public int findShape(int mainArea) {
         int rgbCurrentPixel;
         //Seek shape of the basket, starting from the right side.
-        if(mainArea < IMAGE_WIDTH/2) {
+        if(mainArea < FINAL_IMAGE_WIDTH/2) {
             for (int y = original.getHeight()-1; y > 0; y--) {
                 //Care for visitedFields variable (x must be larger!!)
                 for (int x = original.getWidth()-5; x > 5; x--) {

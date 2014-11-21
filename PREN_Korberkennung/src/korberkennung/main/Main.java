@@ -24,7 +24,6 @@ public class Main {
         Viewer viewer = new Viewer(detektor);
         Thread.sleep(1000);
         detektor.start();
-        System.out.println("Black Pixel Main Area: " + detektor.calculateMainArea() + " (X-Coordinate)");
         Viewer viewer2 = new Viewer(detektor);
     }
     
