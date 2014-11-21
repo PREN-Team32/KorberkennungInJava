@@ -27,6 +27,7 @@ public class Detector {
     protected static int INITIAL_IMAGE_HEIGHT = 500;
     protected static int FINAL_IMAGE_WIDTH = 488;
     protected static int FINAL_IMAGE_HEIGHT = 500;
+    protected static int VISITED_PIXELS = 3; //Amount of visited adjacent Pixels to determine a shape.
     
     //Zur Zeitmessung
     private long zeitVorher;
@@ -77,15 +78,14 @@ public class Detector {
                     original.setRGB(x, y, Color.BLACK.getIntArgbPre());
                     darkPixCount++;
                 }
-                //System.out.println("Red Color value = " + red);
-                //System.out.println("Green Color value = " + green);
-                //System.out.println("Blue Color value = " + blue);
             }
         }
+        int objectBorder = findObject(calculateMainArea());
         zeitNachher = System.currentTimeMillis();
         long gebrauchteZeit = zeitNachher - zeitVorher;
+        System.out.println("Objekt erkannt bei X = " + objectBorder);
         System.out.println("Bright | Dark Pixels: " + brightPixCount + " | " + darkPixCount);
-        System.out.println("Zeit zum Analysieren der Pixel: " + gebrauchteZeit + " ms");
+        System.out.println("Zeit gebraucht: " + gebrauchteZeit + " ms");
     }
     
     private int calculateMainArea() {
@@ -103,8 +103,10 @@ public class Detector {
         return totalX/blackPixCount;
     }
     
-    public int findShape(int mainArea) {
+    public int findObject(int mainArea) {
         int rgbCurrentPixel;
+        int xCoordinate = Integer.MIN_VALUE;
+        System.out.println("Attempting to find bucket..");
         //Seek shape of the basket, starting from the right side.
         if(mainArea < FINAL_IMAGE_WIDTH/2) {
             for (int y = original.getHeight()-1; y > 0; y--) {
@@ -112,8 +114,12 @@ public class Detector {
                 for (int x = original.getWidth()-5; x > 5; x--) {
                     rgbCurrentPixel = original.getRGB(x, y);
                     if(rgbCurrentPixel == Color.BLACK.getIntArgbPre()) {
-                        if(isBucketShape(x, y, true)) {
-                            return x;
+                        if(isBucketShape(x, y, false)) {
+                            //System.out.print("(" + x + ", " + y + ") /");
+                            original.setRGB(x, y, Color.RED.getIntArgbPre());
+                            if(x > xCoordinate) {
+                                xCoordinate = x;
+                            }
                         }
                     }
                 }
@@ -124,49 +130,54 @@ public class Detector {
             for (int y = 0; y < original.getHeight(); y++) {
                 //Care for visitedFields variable (x must be larger!!)
                 for (int x = 5; x < original.getWidth()-5; x++) {
-                    if(isBucketShape(x, y, false)) {
-                        return x;
+                    if(isBucketShape(x, y, true)) {
+                        //System.out.print("(" + x + ", " + y + ") /");
+                        original.setRGB(x, y, Color.RED.getIntArgbPre());
+                        if(x < xCoordinate) {
+                            xCoordinate = x;
+                        }
                     }
                 }
             }
         }
         //Else, basket must be in the middle.
         else {
-            return FINAL_IMAGE_WIDTH/2;
+            xCoordinate = FINAL_IMAGE_WIDTH/2;
         }
-        System.out.println("No Shape found.");
-        return Integer.MIN_VALUE;
+        
+        if(xCoordinate == Integer.MIN_VALUE) {
+            System.out.println("No shape found.");
+        }
+        System.out.print("\n");
+        return xCoordinate;
     }
     
     private boolean isBucketShape(int x, int y, boolean fromLeft) {
         boolean isBucketShape = true;
-        int visitedFields = 2;
-        int[] rgbToLeft = new int[visitedFields];
-        int[] rgbToRight = new int[visitedFields];
+        int[] rgbToLeft = new int[VISITED_PIXELS];
+        int[] rgbToRight = new int[VISITED_PIXELS];
         
-        for(int i = 0; i < visitedFields; i++) {
+        for(int i = 0; i < VISITED_PIXELS; i++) {
             rgbToLeft[i] = original.getRGB(x - (i+1), y);
             rgbToRight[i] = original.getRGB(x + (i+1), y);
         }
         
         if(fromLeft) {
-            for(int i = 0; i < visitedFields; i++) {
+            for(int i = 0; i < VISITED_PIXELS; i++) {
                 if(rgbToLeft[i] != Color.WHITE.getIntArgbPre() || rgbToRight[i] != Color.BLACK.getIntArgbPre()) {
                     isBucketShape = false;
                 }
             }
         }
         else {
-            for(int i = 0; i < visitedFields; i++) {
+            for(int i = 0; i < VISITED_PIXELS; i++) {
                 if(rgbToLeft[i] != Color.BLACK.getIntArgbPre() || rgbToRight[i] != Color.WHITE.getIntArgbPre()) {
                     isBucketShape = false;
                 }
             }
         }
-        return isBucketShape;
-        
+        //System.out.println("(" + x + ", " + y + ", " + isBucketShape + ")");
+        return isBucketShape;        
     }
-    
-    
 }
 
