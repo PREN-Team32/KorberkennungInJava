@@ -105,10 +105,11 @@ public class Detector {
     
     public int findObject(int mainArea) {
         int rgbCurrentPixel;
-        int xCoordinate = Integer.MIN_VALUE;
+        int xCoordinate;
         System.out.println("Attempting to find bucket..");
         //Seek shape of the basket, starting from the right side.
         if(mainArea < FINAL_IMAGE_WIDTH/2) {
+            xCoordinate = Integer.MIN_VALUE;
             for (int y = original.getHeight()-1; y > 0; y--) {
                 //Care for visitedFields variable (x must be larger!!)
                 for (int x = original.getWidth()-5; x > 5; x--) {
@@ -127,6 +128,7 @@ public class Detector {
         }
         //Seek shape of the basket, starting from the left side.
         else if(mainArea > FINAL_IMAGE_WIDTH/2) {
+            xCoordinate = Integer.MAX_VALUE;
             for (int y = 0; y < original.getHeight(); y++) {
                 //Care for visitedFields variable (x must be larger!!)
                 for (int x = 5; x < original.getWidth()-5; x++) {
@@ -145,7 +147,7 @@ public class Detector {
             xCoordinate = FINAL_IMAGE_WIDTH/2;
         }
         
-        if(xCoordinate == Integer.MIN_VALUE) {
+        if(xCoordinate == Integer.MIN_VALUE || xCoordinate == Integer.MAX_VALUE) {
             System.out.println("No shape found.");
         }
         System.out.print("\n");
