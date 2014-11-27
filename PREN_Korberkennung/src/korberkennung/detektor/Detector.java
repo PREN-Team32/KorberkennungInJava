@@ -60,8 +60,8 @@ public class Detector {
         //to determine whether to color the pixel black or white
         //
         //Useful Hint:
-        //Make sure to make the outer loop over the y-coordinate. 
-        //This will likely make the code much faster, as it will be accessing the image data in the order it's stored in memory. (As rows of pixels.)
+        //Make sure to make the outer loop over the y-coordinate. This will likely make the code much 
+        //faster, as it will be accessing the image data in the order it's stored in memory. (As rows of pixels.)
         zeitVorher = System.currentTimeMillis();
         for (int y = 0; y < editedImage.getHeight(); y++) {
             for (int x = 0; x < editedImage.getWidth(); x++) {
@@ -84,27 +84,17 @@ public class Detector {
                 }
             }
         }
-        int objectBorder = findObject(calculateMainArea()); //core detection mechanism
+        //Step 2:
+        //Core detection mechanism
+        int objectBorder = findObject(calculateMainArea());
+        
+        //Step 3:
+        //Evaluate results
         zeitNachher = System.currentTimeMillis();
         long gebrauchteZeit = zeitNachher - zeitVorher;
         System.out.println("#Detektor: Object detected at X = " + objectBorder);
         System.out.println("#Detektor: Bright | Dark Pixels = " + brightPixCount + " | " + darkPixCount);
         System.out.println("#Detektor: Time used: " + gebrauchteZeit + " ms");
-    }
-    
-    private int calculateMainArea() {
-        int totalX = 0;
-        int blackPixCount = 0;
-        for (int y = 0; y < editedImage.getHeight(); y++) {
-            for (int x = 0; x < editedImage.getWidth(); x++) {
-                int rgbCode = editedImage.getRGB(x, y);
-                if(rgbCode == Color.BLACK.getIntArgbPre()) {
-                    totalX += x;
-                    blackPixCount++;
-                }
-            }
-        }
-        return totalX/blackPixCount;
     }
     
     private int findObject(int mainArea) {
@@ -155,6 +145,21 @@ public class Detector {
             System.err.println("#Detektor: NO SHAPE FOUND.");
         }
         return xCoordinate;
+    }
+    
+    private int calculateMainArea() {
+        int totalX = 0;
+        int blackPixCount = 0;
+        for (int y = 0; y < editedImage.getHeight(); y++) {
+            for (int x = 0; x < editedImage.getWidth(); x++) {
+                int rgbCode = editedImage.getRGB(x, y);
+                if(rgbCode == Color.BLACK.getIntArgbPre()) {
+                    totalX += x;
+                    blackPixCount++;
+                }
+            }
+        }
+        return totalX/blackPixCount;
     }
     
     private boolean isBucketShape(int x, int y, boolean fromLeft) {
