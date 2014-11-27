@@ -19,7 +19,7 @@ public class Detector {
     private int brightPixCount = 0;
     private int darkPixCount = 0;
     
-    //Zuvor zu konfigurierende Variabeln
+    //Zu konfigurierende Variabeln
     protected static float LUMINANCETHRESHOLD = 0.3f;
     protected static int VISITED_PIXELS = 3; //Amount of visited adjacent Pixels to determine a shape.
     
@@ -55,6 +55,11 @@ public class Detector {
     }
     
     public void start() {
+        //Step 1:
+        //Looping through all Pixels, determine luminance and evaluate it against LUMINANCETHRESHOLD
+        //to determine whether to color the pixel black or white
+        //
+        //Useful Hint:
         //Make sure to make the outer loop over the y-coordinate. 
         //This will likely make the code much faster, as it will be accessing the image data in the order it's stored in memory. (As rows of pixels.)
         zeitVorher = System.currentTimeMillis();
@@ -79,12 +84,12 @@ public class Detector {
                 }
             }
         }
-        int objectBorder = findObject(calculateMainArea());
+        int objectBorder = findObject(calculateMainArea()); //core detection mechanism
         zeitNachher = System.currentTimeMillis();
         long gebrauchteZeit = zeitNachher - zeitVorher;
-        System.out.println("Objekt erkannt bei X = " + objectBorder);
-        System.out.println("Bright | Dark Pixels: " + brightPixCount + " | " + darkPixCount);
-        System.out.println("Zeit gebraucht: " + gebrauchteZeit + " ms");
+        System.out.println("#Detektor: Object detected at X = " + objectBorder);
+        System.out.println("#Detektor: Bright | Dark Pixels = " + brightPixCount + " | " + darkPixCount);
+        System.out.println("#Detektor: Time used: " + gebrauchteZeit + " ms");
     }
     
     private int calculateMainArea() {
@@ -102,10 +107,10 @@ public class Detector {
         return totalX/blackPixCount;
     }
     
-    public int findObject(int mainArea) {
+    private int findObject(int mainArea) {
         int rgbCurrentPixel;
         int xCoordinate;
-        System.out.println("Attempting to find bucket..");
+        System.out.println("#Detektor: Attempting to find bucket..");
         //Seek shape of the basket, starting from the right side.
         if(mainArea < WIDTH_TO_OBSERVE/2) {
             xCoordinate = Integer.MIN_VALUE;
@@ -147,9 +152,8 @@ public class Detector {
         }
         
         if(xCoordinate == Integer.MIN_VALUE || xCoordinate == Integer.MAX_VALUE) {
-            System.out.println("No shape found.");
+            System.err.println("#Detektor: NO SHAPE FOUND.");
         }
-        System.out.print("\n");
         return xCoordinate;
     }
     
