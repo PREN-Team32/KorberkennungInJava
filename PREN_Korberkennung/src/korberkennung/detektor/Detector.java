@@ -18,6 +18,16 @@ public class Detector {
     private BufferedImage originalImage;
     private int brightPixCount = 0;
     private int darkPixCount = 0;
+    private int mainArea;
+    private long gebrauchteZeit;
+
+    public long getGebrauchteZeit() {
+        return gebrauchteZeit;
+    }
+
+    public int getMainArea() {
+        return mainArea;
+    }
     
     //Zu konfigurierende Variabeln
     protected static float LUMINANCETHRESHOLD = 0.3f;
@@ -91,7 +101,7 @@ public class Detector {
         //Step 3:
         //Evaluate results
         zeitNachher = System.currentTimeMillis();
-        long gebrauchteZeit = zeitNachher - zeitVorher;
+        this.gebrauchteZeit = zeitNachher - zeitVorher;
         System.out.println("#Detektor: Object detected at X = " + objectBorder);
         System.out.println("#Detektor: Bright | Dark Pixels = " + brightPixCount + " | " + darkPixCount);
         System.out.println("#Detektor: Time used: " + gebrauchteZeit + " ms");
@@ -159,7 +169,9 @@ public class Detector {
                 }
             }
         }
-        return totalX/blackPixCount;
+        this.mainArea = totalX/blackPixCount;
+        System.out.println("Found Main Area: " + mainArea);
+        return mainArea;
     }
     
     private boolean isBucketShape(int x, int y, boolean fromLeft) {

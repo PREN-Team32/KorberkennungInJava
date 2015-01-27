@@ -13,7 +13,8 @@ import korberkennung.desktopviewer.Viewer;
  * @author Nikk
  */
 public class Main {
-    private static final String FILEPATH = "Korb2.jpg";
+    private static final String FILEPATH = "Nexus3"
+            + ".jpg";
 
     /**
      * @param args the command line arguments
