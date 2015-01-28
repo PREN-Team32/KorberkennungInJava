@@ -18,15 +18,16 @@ public class Detector {
     private BufferedImage originalImage;
     private int brightPixCount = 0;
     private int darkPixCount = 0;
-    private int mainArea;
+    private int mainAreaX;
+    private int mainAreaY;
     private long gebrauchteZeit;
 
     public long getGebrauchteZeit() {
         return gebrauchteZeit;
     }
 
-    public int getMainArea() {
-        return mainArea;
+    public int getMainAreaX() {
+        return mainAreaX;
     }
     
     //Zu konfigurierende Variabeln
@@ -159,19 +160,22 @@ public class Detector {
     
     private int calculateMainArea() {
         int totalX = 0;
+        int totalY = 0;
         int blackPixCount = 0;
         for (int y = 0; y < editedImage.getHeight(); y++) {
             for (int x = 0; x < editedImage.getWidth(); x++) {
                 int rgbCode = editedImage.getRGB(x, y);
                 if(rgbCode == Color.BLACK.getIntArgbPre()) {
                     totalX += x;
-                    blackPixCount++;
+                    totalY+= y;
+                    blackPixCount++;                    
                 }
             }
         }
-        this.mainArea = totalX/blackPixCount;
-        System.out.println("Found Main Area: " + mainArea);
-        return mainArea;
+        this.mainAreaX = totalX/blackPixCount;
+        this.mainAreaY = totalY/blackPixCount;
+        System.out.println("Found Main Area: " + mainAreaX);
+        return mainAreaX;
     }
     
     private boolean isBucketShape(int x, int y, boolean fromLeft) {
@@ -200,6 +204,26 @@ public class Detector {
         }
         //System.out.println("(" + x + ", " + y + ", " + isBucketShape + ")");
         return isBucketShape;        
+    }
+
+    public void drawMainArea() {
+        int x = getMainAreaX();
+        for(int y = editedImage.getHeight()-1; y > 0; y--) {
+           editedImage.setRGB(x, y, Color.BLUE.getIntArgbPre());
+           if(x > 1 && x < editedImage.getWidth()-1) {
+            editedImage.setRGB(x-1, y, Color.BLUE.getIntArgbPre());
+            editedImage.setRGB(x+1, y, Color.BLUE.getIntArgbPre());
+           }
+        }
+        
+//        int y = mainAreaY;
+//        for(x = editedImage.getWidth()-1; x > 0 ; x--) {
+//            editedImage.setRGB(x, y, Color.BLUE.getIntArgbPre());
+//           if(y > 1 && y < editedImage.getWidth()-1) {
+//            editedImage.setRGB(x, y-1, Color.BLUE.getIntArgbPre());
+//            editedImage.setRGB(x+1, y+1, Color.BLUE.getIntArgbPre());
+//           }
+//        }
     }
 }
 

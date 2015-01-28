@@ -13,7 +13,7 @@ import korberkennung.desktopviewer.Viewer;
  * @author Nikk
  */
 public class Main {
-    private static final String FILEPATH = "Nexus3"
+    private static final String FILEPATH = "WinPhone1"
             + ".jpg";
 
     /**
