@@ -39,7 +39,7 @@ public class DesktopViewer extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jSlider1 = new javax.swing.JSlider();
+        luminanceSlider = new javax.swing.JSlider();
         jTextField1 = new javax.swing.JTextField();
         luminanceThreshold = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
@@ -64,7 +64,11 @@ public class DesktopViewer extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jSlider1.setEnabled(false);
+        luminanceSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                luminanceSliderStateChanged(evt);
+            }
+        });
 
         jTextField1.setEditable(false);
         jTextField1.setText("  Luminance Threshold:");
@@ -72,14 +76,12 @@ public class DesktopViewer extends javax.swing.JFrame {
 
         luminanceThreshold.setEditable(false);
         luminanceThreshold.setText("0.5 f");
-        luminanceThreshold.setEnabled(false);
 
         jTextField3.setEditable(false);
         jTextField3.setText("  Main Area:");
         jTextField3.setEnabled(false);
 
         mainArea.setEditable(false);
-        mainArea.setEnabled(false);
 
         jTextField6.setEditable(false);
         jTextField6.setText("  Found Shape?");
@@ -87,14 +89,12 @@ public class DesktopViewer extends javax.swing.JFrame {
 
         wasFound.setEditable(false);
         wasFound.setText("false");
-        wasFound.setEnabled(false);
 
         jTextField8.setEditable(false);
         jTextField8.setText("  Total Time used:");
         jTextField8.setEnabled(false);
 
         totalTimeUsed.setEditable(false);
-        totalTimeUsed.setEnabled(false);
 
         analyzePixels.setText("2. Analyze Pixels");
         analyzePixels.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -174,7 +174,7 @@ public class DesktopViewer extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(luminanceSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -205,7 +205,7 @@ public class DesktopViewer extends javax.swing.JFrame {
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(luminanceThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(luminanceSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -227,9 +227,9 @@ public class DesktopViewer extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                    .addContainerGap(208, Short.MAX_VALUE)
+                    .addContainerGap(177, Short.MAX_VALUE)
                     .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(269, 269, 269)))
+                    .addGap(300, 300, 300)))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -320,6 +320,15 @@ public class DesktopViewer extends javax.swing.JFrame {
         imageLabel.setText("");
         imageLabel.repaint();
     }//GEN-LAST:event_drawMainAreaMouseClicked
+
+    private void luminanceSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_luminanceSliderStateChanged
+        float value = luminanceSlider.getValue();
+        System.out.println(value + " this is the value");
+        value = value/100.00f;
+        luminanceThreshold.setText(value + " f");
+        System.out.println(value + " f");
+        Detector.setLuminanceThreshold(value);
+    }//GEN-LAST:event_luminanceSliderStateChanged
     
     private void loadImage(){
         ImageIcon image = new ImageIcon(detektor.getOriginalImage());
@@ -376,12 +385,12 @@ public class DesktopViewer extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JSlider jSlider1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField8;
+    private javax.swing.JSlider luminanceSlider;
     private javax.swing.JTextField luminanceThreshold;
     private javax.swing.JTextField mainArea;
     private javax.swing.JTextField totalTimeUsed;
