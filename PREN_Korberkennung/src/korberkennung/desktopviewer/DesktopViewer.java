@@ -323,10 +323,8 @@ public class DesktopViewer extends javax.swing.JFrame {
 
     private void luminanceSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_luminanceSliderStateChanged
         float value = luminanceSlider.getValue();
-        System.out.println(value + " this is the value");
         value = value/100.00f;
         luminanceThreshold.setText(value + " f");
-        System.out.println(value + " f");
         Detector.setLuminanceThreshold(value);
     }//GEN-LAST:event_luminanceSliderStateChanged
     
