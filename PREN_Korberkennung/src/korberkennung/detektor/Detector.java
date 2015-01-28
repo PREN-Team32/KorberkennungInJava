@@ -21,6 +21,7 @@ public class Detector {
     private int mainAreaX;
     private int mainAreaY;
     private long gebrauchteZeit;
+    private int objectBorder;
 
     public long getGebrauchteZeit() {
         return gebrauchteZeit;
@@ -31,7 +32,7 @@ public class Detector {
     }
     
     //Zu konfigurierende Variabeln
-    protected static float LUMINANCETHRESHOLD = 0.3f;
+    protected static float LUMINANCETHRESHOLD = 0.5f;
     protected static int VISITED_PIXELS = 3; //Amount of visited adjacent Pixels to determine a shape.
     
     //Zur Zeitmessung
@@ -97,7 +98,7 @@ public class Detector {
         }
         //Step 2:
         //Core detection mechanism
-        int objectBorder = findObject(calculateMainArea());
+        this.objectBorder = findObject(calculateMainArea());
         
         //Step 3:
         //Evaluate results
@@ -224,6 +225,17 @@ public class Detector {
 //            editedImage.setRGB(x+1, y+1, Color.BLUE.getIntArgbPre());
 //           }
 //        }
+    }
+    
+    public void drawShapeLine() {
+        int x = objectBorder;
+        for(int y = editedImage.getHeight()-1; y > 0; y--) {
+           editedImage.setRGB(x, y, Color.GREEN.getIntArgbPre());
+           if(x > 1 && x < editedImage.getWidth()-1) {
+            editedImage.setRGB(x-1, y, Color.GREEN.getIntArgbPre());
+            editedImage.setRGB(x+1, y, Color.GREEN.getIntArgbPre());
+           }
+        }
     }
 }
 
