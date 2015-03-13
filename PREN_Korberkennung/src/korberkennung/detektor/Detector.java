@@ -237,5 +237,12 @@ public class Detector {
            }
         }
     }
+    
+    public double calculateAngle(int objectBorder, boolean fromRight) {
+        double angle = 0.0;
+        
+        
+        return angle;
+    }
 }
 
