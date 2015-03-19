@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package korberkennung.core;
+package korberkennung.main;
 
 import korberkennung.detektor.Detector;
 import korberkennung.desktopviewer.Viewer;
