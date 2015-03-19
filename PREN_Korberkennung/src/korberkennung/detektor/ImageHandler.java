@@ -5,6 +5,7 @@
  */
 package korberkennung.detektor;
 
+import com.sun.prism.paint.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -15,18 +16,18 @@ import javax.imageio.ImageIO;
  *
  * @author Niklaus
  */
-public class ImageLoader {        
+public class ImageHandler {        
     protected static int INITIAL_IMAGE_WIDTH = 888;
     protected static int INITIAL_IMAGE_HEIGHT = 500;
     protected static int WIDTH_TO_OBSERVE = 488;
     protected static int HEIGHT_TO_OBSERVE = 500;
 
     public static void setObservedWidth(int WIDTH_TO_OBSERVE) {
-        ImageLoader.WIDTH_TO_OBSERVE = WIDTH_TO_OBSERVE;
+        ImageHandler.WIDTH_TO_OBSERVE = WIDTH_TO_OBSERVE;
     }
 
     public static void setObservedHeight(int HEIGHT_TO_OBSERVE) {
-        ImageLoader.HEIGHT_TO_OBSERVE = HEIGHT_TO_OBSERVE;
+        ImageHandler.HEIGHT_TO_OBSERVE = HEIGHT_TO_OBSERVE;
     }
     
     public static BufferedImage loadImage(String imageName) {
@@ -46,5 +47,15 @@ public class ImageLoader {
             System.err.println(ex.getMessage());
         }
         return image;
+    }
+    
+    public static void drawVerticalLine(BufferedImage image, int x, Color color) {
+        for(int y = image.getHeight()-1; y > 0; y--) {
+           image.setRGB(x, y, color.getIntArgbPre());
+           if(x > 1 && x < image.getWidth()-1) {
+            image.setRGB(x-1, y, color.getIntArgbPre());
+            image.setRGB(x+1, y, color.getIntArgbPre());
+           }
+        }
     }
 }

@@ -7,7 +7,7 @@ package korberkennung.detektor;
 
 import com.sun.prism.paint.Color;
 import java.awt.image.BufferedImage;
-import static korberkennung.detektor.ImageLoader.WIDTH_TO_OBSERVE;
+import static korberkennung.detektor.ImageHandler.WIDTH_TO_OBSERVE;
 
 /**
  *
@@ -41,7 +41,7 @@ public class Detector {
     
     
     public Detector(String imageName) {
-        originalImage = ImageLoader.loadImage(imageName);
+        originalImage = ImageHandler.loadImage(imageName);
         editedImage = originalImage;
     }
     
@@ -62,7 +62,7 @@ public class Detector {
     }
     
     public void loadNewImage(String imageName) {
-        originalImage = ImageLoader.loadImage(imageName);
+        originalImage = ImageHandler.loadImage(imageName);
         editedImage = originalImage;
     }
     
@@ -208,34 +208,11 @@ public class Detector {
     }
 
     public void drawMainArea() {
-        int x = getMainAreaX();
-        for(int y = editedImage.getHeight()-1; y > 0; y--) {
-           editedImage.setRGB(x, y, Color.BLUE.getIntArgbPre());
-           if(x > 1 && x < editedImage.getWidth()-1) {
-            editedImage.setRGB(x-1, y, Color.BLUE.getIntArgbPre());
-            editedImage.setRGB(x+1, y, Color.BLUE.getIntArgbPre());
-           }
-        }
-        
-//        int y = mainAreaY;
-//        for(x = editedImage.getWidth()-1; x > 0 ; x--) {
-//            editedImage.setRGB(x, y, Color.BLUE.getIntArgbPre());
-//           if(y > 1 && y < editedImage.getWidth()-1) {
-//            editedImage.setRGB(x, y-1, Color.BLUE.getIntArgbPre());
-//            editedImage.setRGB(x+1, y+1, Color.BLUE.getIntArgbPre());
-//           }
-//        }
+        ImageHandler.drawVerticalLine(editedImage, mainAreaX, Color.BLUE);
     }
     
-    public void drawShapeLine() {
-        int x = objectBorder;
-        for(int y = editedImage.getHeight()-1; y > 0; y--) {
-           editedImage.setRGB(x, y, Color.GREEN.getIntArgbPre());
-           if(x > 1 && x < editedImage.getWidth()-1) {
-            editedImage.setRGB(x-1, y, Color.GREEN.getIntArgbPre());
-            editedImage.setRGB(x+1, y, Color.GREEN.getIntArgbPre());
-           }
-        }
+    public void drawObjectBorder() {
+        ImageHandler.drawVerticalLine(editedImage, objectBorder, Color.GREEN);
     }
     
     public double calculateAngle(int objectBorder, boolean fromRight) {
