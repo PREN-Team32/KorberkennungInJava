@@ -52,6 +52,10 @@ public class Detector {
     public BufferedImage getOriginalImage() {
         return originalImage;
     }
+    
+    public int getObjectBorder() {
+        return objectBorder;
+    }
 
     public static void setLuminanceThreshold(float LUMINANCETHRESHOLD) {
         Detector.LUMINANCETHRESHOLD = LUMINANCETHRESHOLD;
