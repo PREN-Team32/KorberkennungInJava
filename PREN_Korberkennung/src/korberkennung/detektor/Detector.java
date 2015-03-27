@@ -70,7 +70,7 @@ public class Detector {
         editedImage = originalImage;
     }
     
-    public void start() {
+    public byte start() {
         //Step 1:
         //Looping through all Pixels, determine luminance and evaluate it against LUMINANCETHRESHOLD
         //to determine whether to color the pixel black or white
@@ -106,11 +106,13 @@ public class Detector {
         
         //Step 3:
         //Evaluate results
-        zeitNachher = System.currentTimeMillis();
-        this.gebrauchteZeit = zeitNachher - zeitVorher;
         System.out.println("#Detektor: Object detected at X = " + objectBorder);
         System.out.println("#Detektor: Bright | Dark Pixels = " + brightPixCount + " | " + darkPixCount);
+        byte steps = AngleCalculator.getSteps(objectBorder);
+        zeitNachher = System.currentTimeMillis();
+        this.gebrauchteZeit = zeitNachher - zeitVorher;
         System.out.println("#Detektor: Time used: " + gebrauchteZeit + " ms");
+        return steps;
     }
     
     private int findObject(int mainArea) {
@@ -219,7 +221,7 @@ public class Detector {
         ImageHandler.drawVerticalLine(editedImage, objectBorder, Color.GREEN);
     }
     
-    public double calculateAngle(int objectBorder, boolean fromRight) {
+    public double calculateAngle(int objectBorder) {
         double angle = 0.0;
         
         
