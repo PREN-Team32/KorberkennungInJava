@@ -36,7 +36,7 @@ public class AngleCalculator {
     public static byte getSteps(int objectBorder) {
         byte steps = 0;
         double angle = getAngle(objectBorder);
-        System.out.println("#AngleCalculator: Resulting angle from given Coordinate = " + angle + "°");
+        System.out.println("#AngleCalculator: Angle from given Coordinate = " + angle + "°");
         
         if(angle < 20.5) {
             steps = (byte)Math.abs(angle/1.8);
@@ -45,6 +45,7 @@ public class AngleCalculator {
             steps = 11;
             System.err.println("#AngleCalculator: Angle too large!!!");
         }
+        System.out.println("#AngleCalculator: Amount of Steps for Engine = " + steps);
         return steps;
     }
 }
